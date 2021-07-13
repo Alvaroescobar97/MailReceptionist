@@ -47,11 +47,13 @@ pipeline {
     }
 
     stage('Compile & Unit Tests') {
+      /*
       steps{
         echo "------------>Compile & Unit Tests<------------"
         sh 'chmod +x gradlew'
         sh './gradlew --b ./build.gradle test'
       }
+      */
     }
 
     stage('Static Code Analysis') {
@@ -64,10 +66,12 @@ pipeline {
     }
 
     stage('Build') {
+      /*
       steps {
         echo "------------>Build<------------"
         sh './gradlew --b ./build.gradle build -x test'
       }
+      */
     }
   }
 
