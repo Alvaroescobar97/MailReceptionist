@@ -1,8 +1,7 @@
 package com.ceiba.envio.controlador;
 
-import com.ceiba.usuario.consulta.ManejadorListarEnvios;
-import com.ceiba.usuario.modelo.dto.DtoEnvio;
-import com.ceiba.usuario.modelo.dto.DtoUsuario;
+import com.ceiba.envio.consulta.ManejadorListarEnvios;
+import com.ceiba.envio.modelo.dto.DtoEnvio;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.GetMapping;

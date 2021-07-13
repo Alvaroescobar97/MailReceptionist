@@ -1,6 +1,6 @@
-package com.ceiba.usuario.puerto.dao;
+package com.ceiba.envio.puerto;
 
-import com.ceiba.usuario.modelo.dto.DtoEnvio;
+import com.ceiba.envio.modelo.dto.DtoEnvio;
 
 import java.util.List;
 

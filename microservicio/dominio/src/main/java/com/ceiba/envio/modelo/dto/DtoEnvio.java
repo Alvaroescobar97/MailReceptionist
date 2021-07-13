@@ -1,4 +1,4 @@
-package com.ceiba.usuario.modelo.dto;
+package com.ceiba.envio.modelo.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -1,7 +1,7 @@
-package com.ceiba.usuario.consulta;
+package com.ceiba.envio.consulta;
 
-import com.ceiba.usuario.modelo.dto.DtoEnvio;
-import com.ceiba.usuario.puerto.dao.DaoEnvio;
+import com.ceiba.envio.modelo.dto.DtoEnvio;
+import com.ceiba.envio.puerto.DaoEnvio;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

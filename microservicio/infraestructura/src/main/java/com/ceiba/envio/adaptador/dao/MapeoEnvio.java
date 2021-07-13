@@ -1,7 +1,7 @@
 package com.ceiba.envio.adaptador.dao;
 
 import com.ceiba.infraestructura.jdbc.MapperResult;
-import com.ceiba.usuario.modelo.dto.DtoEnvio;
+import com.ceiba.envio.modelo.dto.DtoEnvio;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
