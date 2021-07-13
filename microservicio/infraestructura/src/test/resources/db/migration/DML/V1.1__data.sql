@@ -1,1 +1,1 @@
-insert into usuario(nombre,clave,fecha_creacion) values('test','1234',now())
+insert into envio(cedulaEmisor,cedulaReceptor,fecha,tipo,peso,valor) values('123456789','987654321',now(), "PAQUETE",18.5,36500)
