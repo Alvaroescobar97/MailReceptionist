@@ -1,0 +1,10 @@
+CREATE TABLE IF NOT EXISTS envio(
+ id SERIAL,
+ cedulaEmisor VARCHAR(12) NOT NULL,
+ cedulaReceptor VARCHAR(12) NOT NULL,
+ fecha DATE NULL,
+ tipo VARCHAR(8) NOT NULL,
+ peso DECIMAL(16,2) NULL,
+ valor DECIMAL(16,2) NULL,
+ PRIMARY KEY(id)
+);
