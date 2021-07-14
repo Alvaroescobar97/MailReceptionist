@@ -57,6 +57,13 @@ pipeline {
       
     }
 
+    stage('Build') {
+      steps {
+        echo "------------>Build<------------"
+        sh './gradlew --b ./build.gradle build -x test'
+      }
+    }
+
     stage('Static Code Analysis') {
       steps{
         echo '------------>Análisis de código estático<------------'
@@ -66,13 +73,7 @@ pipeline {
       }
     }
 
-    stage('Build') {
-      steps {
-        echo "------------>Build<------------"
-        /*
-        sh './gradlew --b ./build.gradle build -x test'*/
-      }
-    }
+    
   }
 
   post {
