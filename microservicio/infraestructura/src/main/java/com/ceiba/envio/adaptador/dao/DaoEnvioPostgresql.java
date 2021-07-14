@@ -3,7 +3,7 @@ package com.ceiba.envio.adaptador.dao;
 import com.ceiba.infraestructura.jdbc.CustomNamedParameterJdbcTemplate;
 import com.ceiba.infraestructura.jdbc.sqlstatement.SqlStatement;
 import com.ceiba.envio.modelo.dto.DtoEnvio;
-import com.ceiba.envio.puerto.DaoEnvio;
+import com.ceiba.envio.puerto.dao.DaoEnvio;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

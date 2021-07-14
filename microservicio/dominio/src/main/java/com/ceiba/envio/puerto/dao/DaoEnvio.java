@@ -1,4 +1,4 @@
-package com.ceiba.envio.puerto;
+package com.ceiba.envio.puerto.dao;
 
 import com.ceiba.envio.modelo.dto.DtoEnvio;
 

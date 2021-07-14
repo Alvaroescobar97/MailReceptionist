@@ -1,0 +1,1 @@
+insert into envio (cedulaEmisor, cedulaReceptor,fecha,tipo,peso,valor) values (:cedulaEmisor, :cedulaReceptor, now(), :tipo, :peso, :valor)
