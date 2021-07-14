@@ -12,7 +12,8 @@ pipeline {
 
   //Una sección que define las herramientas “preinstaladas” en Jenkins
   tools {
-    jdk 'JDK8_Centos' //Verisión preinstalada en la Configuración del Master
+    jdk 'JDK11_Centos' //Verisión preinstalada en la Configuración del Master
+    gradle 'Gradle5.0_Centos'
   }
 /*	Versiones disponibles
       JDK8_Mac
@@ -46,7 +47,24 @@ pipeline {
       }
     }
 
-    stage('Compile & Unit Tests') {
+    stage('Clean') {
+      steps {
+		        dir("${PROJECT_PATH_BACK}")
+            {
+              sh 'gradle clean'
+            }
+
+      }
+    }
+
+    stage('Build') {
+      steps {
+        echo "------------>Build<-----------"
+        sh 'gradle build'
+      }
+    }
+
+    stage('Tests') {
       steps{
         echo "------------>Compile & Unit Tests<------------"
         /*
@@ -55,13 +73,6 @@ pipeline {
         */
       }
       
-    }
-
-    stage('Build') {
-      steps {
-        echo "------------>Build<-----------"
-        sh './gradlew --b ./build.gradle build -x test'
-      }
     }
 
     stage('Static Code Analysis') {
