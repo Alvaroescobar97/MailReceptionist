@@ -1,4 +1,4 @@
-package com.ceiba.usuario.servicio.testdatabuilder;
+package com.ceiba.envio.servicio.testdatabuilder;
 
 import com.ceiba.envio.modelo.entidad.Envio;
 
@@ -17,13 +17,22 @@ public class EnvioTestDataBuilder {
     public EnvioTestDataBuilder(){
         cedulaEmisor ="543210";
         cedulaReceptor ="012345";
-        tipo ="PAQUETE";
-        peso = 20.3;
+        peso = 0.0;
         valor = 35000.0;
     }
 
     public EnvioTestDataBuilder conFecha(LocalDateTime fecha){
         this.fecha = fecha;
+        return this;
+    }
+
+    public EnvioTestDataBuilder conTipo(String tipo){
+        this.tipo = tipo;
+        return this;
+    }
+
+    public EnvioTestDataBuilder conPeso(Double peso){
+        this.peso = peso;
         return this;
     }
 

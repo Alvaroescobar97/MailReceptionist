@@ -1,14 +1,16 @@
 package com.ceiba.envio.modelo.entidad;
 
 import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
 @Getter
+@Setter
 public class Envio {
 
-    private static final String PAQUETE = "PAQUETE";
-    private static final String CARTA = "CARTA";
+    public static final String PAQUETE = "PAQUETE";
+    public static final String CARTA = "CARTA";
 
     private Long id;
     private String cedulaEmisor;

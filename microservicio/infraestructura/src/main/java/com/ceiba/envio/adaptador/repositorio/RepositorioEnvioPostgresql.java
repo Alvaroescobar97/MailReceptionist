@@ -14,6 +14,9 @@ public class RepositorioEnvioPostgresql implements RepositorioEnvio {
     @SqlStatement(namespace="envio", value="crear")
     private static String sqlCrear;
 
+    @SqlStatement(namespace="envio", value="actualizar")
+    private static String sqlActualizar;
+
     public RepositorioEnvioPostgresql(CustomNamedParameterJdbcTemplate customNamedParameterJdbcTemplate) {
         this.customNamedParameterJdbcTemplate = customNamedParameterJdbcTemplate;
     }
@@ -25,11 +28,16 @@ public class RepositorioEnvioPostgresql implements RepositorioEnvio {
 
     @Override
     public void actualizar(Envio envio) {
-
+        this.customNamedParameterJdbcTemplate.crear(envio, sqlActualizar);
     }
 
     @Override
     public void eliminar(Long id) {
 
+    }
+
+    @Override
+    public boolean existePorId(Long id) {
+        return false;
     }
 }

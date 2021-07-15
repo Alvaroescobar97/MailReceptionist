@@ -9,4 +9,6 @@ public interface RepositorioEnvio {
     void actualizar(Envio envio);
 
     void eliminar(Long id);
+
+    boolean existePorId(Long id);
 }
