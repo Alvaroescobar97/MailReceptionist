@@ -25,14 +25,14 @@ public class ConsultaControladorEnvioTest {
     @Autowired
     private MockMvc mockMvc;
 
-    /*
+
     @Test
     public void listar() throws Exception{
         mockMvc.perform(get("/envios")
                 .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$",hasSize(1)))
-                .andExpect(jsonPath("$[0].cedulaEmisor", is("123456789")));
-    }*/
+                .andExpect(status().isOk());
+                //.andExpect(jsonPath("$",hasSize(1)))
+                //.andExpect(jsonPath("$[0].cedulaEmisor", is("123456789")));
+    }
 
 }
