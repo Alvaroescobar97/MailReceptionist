@@ -28,7 +28,7 @@ public class RepositorioEnvioPostgresql implements RepositorioEnvio {
 
     @Override
     public void actualizar(Envio envio) {
-        this.customNamedParameterJdbcTemplate.crear(envio, sqlActualizar);
+        this.customNamedParameterJdbcTemplate.actualizar(envio, sqlActualizar);
     }
 
     @Override

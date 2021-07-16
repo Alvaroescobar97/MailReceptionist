@@ -16,8 +16,8 @@ public class ComandoEnvioTestDataBuilder {
     private Double valor;
 
     public ComandoEnvioTestDataBuilder(){
-        cedulaEmisor = UUID.randomUUID().toString();
-        cedulaReceptor = UUID.randomUUID().toString();
+        cedulaEmisor = "123456789";
+        cedulaReceptor = "987654321";
         fecha = LocalDateTime.of(2021,07,15,0,0);
         tipo = "PAQUETE";
         peso = 20.3;
