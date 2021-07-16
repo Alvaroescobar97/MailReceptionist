@@ -10,13 +10,9 @@ pipeline {
  	disableConcurrentBuilds()
   }
 
-  environment {
-        PROJECT_PATH_BACK = './microservicio/'
-	}
   //Una sección que define las herramientas “preinstaladas” en Jenkins
   tools {
     jdk 'JDK11_Centos' //Verisión preinstalada en la Configuración del Master
-    gradle 'Gradle5.0_Centos'
   }
 /*	Versiones disponibles
       JDK8_Mac
@@ -50,33 +46,34 @@ pipeline {
       }
     }
 
-    stage('Build') {
-      steps {
-        echo "------------>Build<-----------"
-        sh './gradlew --b ./build.gradle build -x test'
-
-      }
-    }
-
-    stage('Tests') {
+stage('Compile & Unit Tests') {
       steps{
         echo "------------>Compile & Unit Tests<------------"
-        sh 'chmod +x gradlew'
-        sh './gradlew --b ./build.gradle test'
+        sh 'chmod +x ./microservicio/gradlew'
+		sh './microservicio/gradlew --b ./microservicio/build.gradle clean'
+		sh './microservicio/gradlew --b ./microservicio/build.gradle --stacktrace test'
       }
       
     }
 
-    stage('Static Code Analysis') {
+stage('Static Code Analysis') {
       steps{
         echo '------------>Análisis de código estático<------------'
         withSonarQubeEnv('Sonar') {
-          sh "${tool name: 'SonarScanner', type:'hudson.plugins.sonar.SonarRunnerInstallation'}/bin/sonar-scanner -Dproject.settings=sonar-project.properties"
+          sh "${tool name: 'SonarScanner', type:'hudson.plugins.sonar.SonarRunnerInstallation'}/bin/sonar-scanner"
         }
       }
     }
 
+    stage('Build') {
+      steps {
+        echo "------------>Build<-----------"
+        sh './microservicio/gradlew --b ./microservicio/build.gradle build -x test'
+      }
+    }
+
     
+
   }
 
   post {
@@ -100,3 +97,4 @@ pipeline {
     }
   }
 }
+
