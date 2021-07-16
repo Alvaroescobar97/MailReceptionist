@@ -34,10 +34,10 @@ public class ComandoControladorEnvio {
 
     @PutMapping(value = "/{id}")
     @ApiOperation("Actualizar Envio")
-    public ResponseEntity<Boolean> actualizar(@RequestBody ComandoEnvio comandoEnvio, @PathVariable Long id){
+    public ResponseEntity<Long> actualizar(@RequestBody ComandoEnvio comandoEnvio, @PathVariable Long id){
         comandoEnvio.setId(id);
         manejadorActualizarEnvio.ejecutar(comandoEnvio);
-        return new ResponseEntity<>(true,HttpStatus.OK);
+        return new ResponseEntity<>(id,HttpStatus.OK);
     }
 
 }
