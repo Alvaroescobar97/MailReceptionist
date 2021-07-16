@@ -8,3 +8,12 @@ CREATE TABLE IF NOT EXISTS envio(
  valor DECIMAL(16,2) NULL,
  PRIMARY KEY(id)
 );
+
+CREATE TABLE IF NOT EXISTS cliente(
+ cedula VARCHAR(12) NOT NULL,
+ nombre VARCHAR(30) NOT NULL,
+ direccion VARCHAR(50) NOT NULL,
+ telefono NUMERIC NULL,
+ ciudad VARCHAR(20) NOT NULL,
+ PRIMARY KEY(cedula)
+);

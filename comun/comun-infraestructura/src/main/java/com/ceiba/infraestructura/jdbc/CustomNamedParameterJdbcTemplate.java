@@ -20,7 +20,14 @@ public class CustomNamedParameterJdbcTemplate {
 	public CustomNamedParameterJdbcTemplate(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
 		this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
 	}
-	
+
+	public String crearCliente(Object object,String sql) {
+		MapSqlParameterSource paramSource = crearParametros(object);
+		KeyHolder keyHolder = new GeneratedKeyHolder();
+		this.namedParameterJdbcTemplate.update(sql, paramSource);
+		return String.valueOf(paramSource.getValue("cedula"));
+	}
+
 	public Long crear(Object object,String sql) {
 		MapSqlParameterSource paramSource = crearParametros(object);
 		KeyHolder keyHolder = new GeneratedKeyHolder();
