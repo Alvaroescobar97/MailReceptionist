@@ -82,7 +82,8 @@ stage('Static Code Analysis') {
     }
     success {
       echo 'This will run only if successful'
-      junit 'build/test-results/test/*.xml' //RUTA DE TUS ARCHIVOS .XML
+      mail (to: 'alvaro.escobar@ceiba.com.co',subject: "Success Pipeline:${currentBuild.fullDisplayName}",body: "Success build ${env.BUILD_URL}")
+      //junit './microservicio/build/test-results/test/*.xml' //RUTA DE TUS ARCHIVOS .XML
     }
     failure {
       echo 'This will run only if failed'
