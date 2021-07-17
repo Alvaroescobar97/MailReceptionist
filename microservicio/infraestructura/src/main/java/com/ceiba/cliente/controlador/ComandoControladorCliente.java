@@ -3,7 +3,6 @@ package com.ceiba.cliente.controlador;
 import com.ceiba.ComandoRespuesta;
 import com.ceiba.cliente.comando.ComandoCliente;
 import com.ceiba.cliente.comando.manejador.ManejadorCrearCliente;
-import com.ceiba.envio.comando.ComandoEnvio;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;

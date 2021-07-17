@@ -16,8 +16,8 @@ public class ComandoEnvioTestDataBuilder {
     private Double valor;
 
     public ComandoEnvioTestDataBuilder(){
-        cedulaEmisor = "123456789";
-        cedulaReceptor = "987654321";
+        cedulaEmisor = "1234567890";
+        cedulaReceptor = "0987654321";
         fecha = LocalDateTime.of(2021,07,15,0,0);
         tipo = "PAQUETE";
         peso = 20.3;

@@ -15,10 +15,18 @@ public class EnvioTestDataBuilder {
     private Double valor;
 
     public EnvioTestDataBuilder(){
-        cedulaEmisor ="543210";
-        cedulaReceptor ="012345";
         peso = 0.0;
         valor = 35000.0;
+    }
+
+    public EnvioTestDataBuilder conCedulaEmisor(String cedulaEmisor){
+        this.cedulaEmisor = cedulaEmisor;
+        return this;
+    }
+
+    public EnvioTestDataBuilder conCedulaReceptor(String cedulaReceptor){
+        this.cedulaReceptor = cedulaReceptor;
+        return this;
     }
 
     public EnvioTestDataBuilder conFecha(LocalDateTime fecha){
