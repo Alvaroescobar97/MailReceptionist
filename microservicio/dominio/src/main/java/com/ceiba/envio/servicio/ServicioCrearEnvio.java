@@ -8,7 +8,7 @@ import com.ceiba.envio.puerto.repositorio.RepositorioEnvio;
 
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
-import java.util.Calendar;
+
 
 public class ServicioCrearEnvio {
 
@@ -19,8 +19,9 @@ public class ServicioCrearEnvio {
     public static final String FECHA_OBLIGATORIA = "La fecha de creacion es obligatoria";
     public static final String CEDULA_EMISOR_INVALIDA = "El EMISOR del correo NO existe en el sistema, debe registrarse primero";
     public static final String CEDULA_RECEPTOR_INVALIDA = "El RECEPTOR del correo NO existe en el sistema, debe registrarse primero";
+    public static final String ULTIMO_ENVIO_PENDIENTE = "Ultimo envio pendiente por ser entregado, debe esperar a que la entrega se realice";
     public static final Double COSTO_ADICIONAL = 10000.0;
-
+    public static final Integer DIAS_ENTREGA_ENVIO = 5;
     private final RepositorioEnvio repositorioEnvio;
     private final RepositorioCliente repositorioCliente;
 
@@ -30,13 +31,13 @@ public class ServicioCrearEnvio {
     }
 
     public Long ejecutar(Envio envio){
+        ValidadorArgumento.validarObligatorio(envio.getFecha(),FECHA_OBLIGATORIA);
         validarEntregaUltimoEnvioClienteEmisor(envio);
         validarExistenciaEmisorEnvio(envio);
         validarExistenciaReceptorEnvio(envio);
         validarNegacionEnvio(envio);
         validarTipoDeEnvio(envio);
         validarPesoDependiendoDelTipo(envio);
-        ValidadorArgumento.validarObligatorio(envio.getFecha(),FECHA_OBLIGATORIA);
         cobrarCostoAdicionalPorSerSabado(envio);
 
         return this.repositorioEnvio.crear(envio);
@@ -44,25 +45,19 @@ public class ServicioCrearEnvio {
 
     public void validarEntregaUltimoEnvioClienteEmisor(Envio envio) {
         LocalDateTime fechaUltimoEnvio = this.repositorioEnvio.ultimoEnvioClienteEmisor(envio.getCedulaEmisor());
-
-        /*
-        //if(fechaUltimoEnvio != null && fechaUltimoEnvio!= LocalDateTime.MIN && fechaUltimoEnvio.isBefore(LocalDateTime.now()) && !fechaUltimoEnvio.isEqual(LocalDateTime.now())){
-            System.out.println(fechaUltimoEnvio);
-            int dias =0;
-
-            while (dias<=5){
+        if(fechaUltimoEnvio != LocalDateTime.MIN){
+            int dias =1;
+            while (dias<=DIAS_ENTREGA_ENVIO){
                 fechaUltimoEnvio = fechaUltimoEnvio.plusDays(1);
-                System.out.println(fechaUltimoEnvio);
-                if (fechaUltimoEnvio.getDayOfWeek() != DayOfWeek.SATURDAY && fechaUltimoEnvio.getDayOfWeek() != DayOfWeek.SUNDAY){
-
+                if(fechaUltimoEnvio.isAfter(envio.getFecha()) || fechaUltimoEnvio.isEqual(envio.getFecha())){
+                    throw new ExcepcionUltimoEnvioPendiente(ULTIMO_ENVIO_PENDIENTE);
                 }
-                dias++;
+                if (fechaUltimoEnvio.getDayOfWeek() != DayOfWeek.SATURDAY && fechaUltimoEnvio.getDayOfWeek() != DayOfWeek.SUNDAY){
+                    System.out.println(dias);
+                    dias++;
+                }
             }
-            if(fechaUltimoEnvio.isAfter(LocalDateTime.now())){
-                throw new ExcepcionUltimoEnvioPendiente("Ultimo envio pendiente por ser entregado, debe esperar a que la entrega se realice");
-            }
-
-        //}*/
+        }
     }
 
     public void validarExistenciaEmisorEnvio(Envio envio) {
@@ -73,7 +68,7 @@ public class ServicioCrearEnvio {
     }
 
     public void validarExistenciaReceptorEnvio(Envio envio) {
-        boolean existeReceptor = this.repositorioCliente.existePorCedula(envio.getCedulaEmisor());
+        boolean existeReceptor = this.repositorioCliente.existePorCedula(envio.getCedulaReceptor());
         if(!existeReceptor){
             throw new ExcepcionValorInvalido(CEDULA_RECEPTOR_INVALIDA);
         }
@@ -104,5 +99,4 @@ public class ServicioCrearEnvio {
             throw new ExcepcionNegacionEnvio(NEGACION_ENVIO);
         }
     }
-
 }

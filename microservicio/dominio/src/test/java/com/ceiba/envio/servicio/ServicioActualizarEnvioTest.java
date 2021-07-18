@@ -1,4 +1,4 @@
-package com.ceiba;
+package com.ceiba.envio.servicio;
 
 import org.junit.Test;
 

@@ -1,9 +1,11 @@
-package com.ceiba;
+package com.ceiba.envio.servicio;
 
+import com.ceiba.BasePrueba;
 import com.ceiba.cliente.puerto.repositorio.RepositorioCliente;
 import com.ceiba.dominio.excepcion.ExcepcionNegacionEnvio;
 import com.ceiba.dominio.excepcion.ExcepcionPesoInvalido;
 import com.ceiba.dominio.excepcion.ExcepcionTipoEnvio;
+import com.ceiba.dominio.excepcion.ExcepcionValorInvalido;
 import com.ceiba.envio.modelo.entidad.Envio;
 import com.ceiba.envio.puerto.repositorio.RepositorioEnvio;
 import com.ceiba.envio.servicio.ServicioCrearEnvio;
@@ -18,6 +20,34 @@ import static org.junit.jupiter.api.Assertions.*;
 public class ServicioCrearEnvioTest {
 
     private static final Double COSTO_ADICIONAL = 10000.0;
+
+    @Test
+    public void validarExistenciaClienteReceptor(){
+        RepositorioCliente repositorioCliente = Mockito.mock(RepositorioCliente.class);
+        Mockito.when(repositorioCliente.existePorCedula("1234567890")).thenReturn(true);
+        Mockito.when(repositorioCliente.existePorCedula("0987654321")).thenReturn(false);
+
+        Envio envio = new EnvioTestDataBuilder().conCedulaEmisor("1234567890").conCedulaReceptor("0987654321").conFecha(LocalDateTime.of(2021,07,16,0,0)).conTipo(Envio.PAQUETE).conPeso(1.0).build();
+        RepositorioEnvio repositorioenvio = Mockito.mock(RepositorioEnvio.class);
+        Mockito.when(repositorioenvio.crear(envio)).thenReturn(1L);
+        ServicioCrearEnvio servicioCrearEnvio = new ServicioCrearEnvio(repositorioenvio,repositorioCliente);
+
+        BasePrueba.assertThrows(()-> servicioCrearEnvio.validarExistenciaReceptorEnvio(envio), ExcepcionValorInvalido.class , "El RECEPTOR del correo NO existe en el sistema, debe registrarse primero");
+    }
+
+    @Test
+    public void validarExistenciaClienteEmisor(){
+        RepositorioCliente repositorioCliente = Mockito.mock(RepositorioCliente.class);
+        Mockito.when(repositorioCliente.existePorCedula("1234567890")).thenReturn(false);
+        Mockito.when(repositorioCliente.existePorCedula("0987654321")).thenReturn(true);
+
+        Envio envio = new EnvioTestDataBuilder().conCedulaEmisor("1234567890").conCedulaReceptor("0987654321").conFecha(LocalDateTime.of(2021,07,16,0,0)).conTipo(Envio.PAQUETE).conPeso(1.0).build();
+        RepositorioEnvio repositorioenvio = Mockito.mock(RepositorioEnvio.class);
+        Mockito.when(repositorioenvio.crear(envio)).thenReturn(1L);
+        ServicioCrearEnvio servicioCrearEnvio = new ServicioCrearEnvio(repositorioenvio,repositorioCliente);
+
+        BasePrueba.assertThrows(()-> servicioCrearEnvio.validarExistenciaEmisorEnvio(envio), ExcepcionValorInvalido.class , "El EMISOR del correo NO existe en el sistema, debe registrarse primero");
+    }
 
     @Test
     public void validarCostoSinRecargo(){
