@@ -5,9 +5,7 @@ import com.ceiba.dominio.ValidadorArgumento;
 import com.ceiba.dominio.excepcion.*;
 import com.ceiba.envio.modelo.entidad.Envio;
 import com.ceiba.envio.puerto.repositorio.RepositorioEnvio;
-
 import java.time.DayOfWeek;
-import java.time.LocalDateTime;
 
 public class ServicioActualizarEnvio {
 

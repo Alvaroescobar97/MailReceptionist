@@ -4,8 +4,6 @@ import com.ceiba.envio.comando.ComandoEnvio;
 import com.ceiba.envio.modelo.entidad.Envio;
 import org.springframework.stereotype.Component;
 
-import java.time.DayOfWeek;
-
 @Component
 public class FabricaEnvio {
 

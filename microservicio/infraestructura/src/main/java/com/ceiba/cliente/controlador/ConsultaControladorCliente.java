@@ -1,6 +1,5 @@
 package com.ceiba.cliente.controlador;
 
-import com.ceiba.cliente.comando.manejador.ManejadorCrearCliente;
 import com.ceiba.cliente.consulta.ManejadorListarClientes;
 import com.ceiba.cliente.modelo.dto.DtoCliente;
 import io.swagger.annotations.Api;

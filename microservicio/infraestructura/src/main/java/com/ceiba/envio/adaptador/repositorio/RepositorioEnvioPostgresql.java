@@ -1,7 +1,5 @@
 package com.ceiba.envio.adaptador.repositorio;
 
-import com.ceiba.envio.adaptador.dao.MapeoEnvio;
-import com.ceiba.envio.modelo.dto.DtoEnvio;
 import com.ceiba.envio.modelo.entidad.Envio;
 import com.ceiba.envio.puerto.repositorio.RepositorioEnvio;
 import com.ceiba.infraestructura.jdbc.CustomNamedParameterJdbcTemplate;
