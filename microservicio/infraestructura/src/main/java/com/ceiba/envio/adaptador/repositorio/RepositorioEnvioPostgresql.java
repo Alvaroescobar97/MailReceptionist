@@ -65,7 +65,7 @@ public class RepositorioEnvioPostgresql implements RepositorioEnvio {
                 return fecha;
             }
         }catch (Exception e){
-            throw new RuntimeException(e);
+            return LocalDateTime.MIN;
         }
     }
 }
