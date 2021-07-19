@@ -19,6 +19,20 @@ public class ServicioCrearEnvioTest {
     private static final Double COSTO_ADICIONAL = 10000.0;
 
     @Test
+    public void validarEntregaUltimoEnvioEn5DiasHabiles(){
+        RepositorioCliente repositorioCliente = Mockito.mock(RepositorioCliente.class);
+        Mockito.when(repositorioCliente.existePorCedula("1234567890")).thenReturn(true);
+        Mockito.when(repositorioCliente.existePorCedula("0987654321")).thenReturn(true);
+
+        Envio envio = new EnvioTestDataBuilder().conCedulaEmisor("0987654321").conCedulaReceptor("1234567890").conFecha(LocalDateTime.of(2021,7,26,0,0)).conTipo(Envio.PAQUETE).conPeso(1.0).build();
+        RepositorioEnvio repositorioEnvio = Mockito.mock(RepositorioEnvio.class);
+        Mockito.when(repositorioEnvio.ultimoEnvioClienteEmisor(envio.getCedulaEmisor())).thenReturn(LocalDateTime.of(2021,7,19,0,0));
+        ServicioCrearEnvio servicioCrearEnvio = new ServicioCrearEnvio(repositorioEnvio,repositorioCliente);
+
+        BasePrueba.assertThrows(()-> servicioCrearEnvio.validarEntregaUltimoEnvioClienteEmisor(envio), ExcepcionUltimoEnvioPendiente.class, "Ultimo envio pendiente por ser entregado, debe esperar a que la entrega se realice");
+    }
+
+    @Test
     public void validarExistenciaClienteReceptor(){
         RepositorioCliente repositorioCliente = Mockito.mock(RepositorioCliente.class);
         Mockito.when(repositorioCliente.existePorCedula("1234567890")).thenReturn(true);
