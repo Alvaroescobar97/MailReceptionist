@@ -1,4 +1,4 @@
-package com.ceiba.envio.controlador;
+package com.ceiba.cliente.controlador;
 
 import com.ceiba.ApplicationMock;
 import org.junit.Test;
@@ -10,7 +10,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
-
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.core.Is.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -19,19 +18,19 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @RunWith(SpringRunner.class)
 @ContextConfiguration(classes= ApplicationMock.class)
-@WebMvcTest(ConsultaControladorEnvio.class)
-public class ConsultaControladorEnvioTest {
+@WebMvcTest(ConsultaControladorCliente.class)
+public class ConsultaControladorClienteTest {
 
     @Autowired
     private MockMvc mockMvc;
 
     @Test
     public void listar() throws Exception{
-        mockMvc.perform(get("/envios")
+        mockMvc.perform(get("/clientes")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$",hasSize(1)))
-                .andExpect(jsonPath("$[0].cedulaEmisor", is("1234567890")));
+                .andExpect(jsonPath("$",hasSize(2)))
+                .andExpect(jsonPath("$[0].cedula", is("1234567890")))
+                .andExpect(jsonPath("$[1].cedula", is("0987654321")));
     }
-
 }

@@ -15,7 +15,6 @@ public class EnvioTestDataBuilder {
     private Double valor;
 
     public EnvioTestDataBuilder(){
-        peso = 0.0;
         valor = 35000.0;
     }
 

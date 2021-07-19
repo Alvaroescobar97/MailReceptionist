@@ -22,7 +22,7 @@ public class BeanServicio {
     }
 
     @Bean
-    public ServicioActualizarEnvio servicioActualizarEnvio(RepositorioEnvio repositorioEnvio){
-        return new ServicioActualizarEnvio(repositorioEnvio);
+    public ServicioActualizarEnvio servicioActualizarEnvio(RepositorioEnvio repositorioEnvio,RepositorioCliente repositorioCliente){
+        return new ServicioActualizarEnvio(repositorioEnvio,repositorioCliente);
     }
 }

@@ -3,7 +3,6 @@ package com.ceiba.envio.servicio.testdatabuilder;
 import com.ceiba.envio.comando.ComandoEnvio;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 public class ComandoEnvioTestDataBuilder {
 
@@ -16,14 +15,16 @@ public class ComandoEnvioTestDataBuilder {
     private Double valor;
 
     public ComandoEnvioTestDataBuilder(){
-        cedulaEmisor = "1234567890";
-        cedulaReceptor = "0987654321";
-        fecha = LocalDateTime.of(2021,07,15,0,0);
+        cedulaEmisor = "0987654321";
+        cedulaReceptor = "1234567890";
         tipo = "PAQUETE";
         peso = 20.3;
         valor = 40500.0;
     }
-
+    public ComandoEnvioTestDataBuilder conFecha(LocalDateTime fecha){
+        this.fecha = fecha;
+        return this;
+    }
     public ComandoEnvio build(){
         return new ComandoEnvio(id,cedulaEmisor,cedulaReceptor,fecha,tipo,peso,valor);
     }

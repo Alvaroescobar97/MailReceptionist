@@ -16,12 +16,16 @@ public class ServicioCrearEnvio {
     public static final String TIPO_ENVIO_ERRONEO = "Solo se aceptan envios de CARTAS o PAQUETES";
     public static final String PESO_PAQUETE_INVALIDO = "Los PAQUETES deben tener peso";
     public static final String PESO_CARTA_INVALIDO = "Las CARTAS NO deben tener peso, es decir peso = 0";
-    public static final String FECHA_OBLIGATORIA = "La fecha de creacion es obligatoria";
+    public static final String FECHA_OBLIGATORIA = "La fecha del envio es obligatoria";
     public static final String CEDULA_EMISOR_INVALIDA = "El EMISOR del correo NO existe en el sistema, debe registrarse primero";
     public static final String CEDULA_RECEPTOR_INVALIDA = "El RECEPTOR del correo NO existe en el sistema, debe registrarse primero";
     public static final String ULTIMO_ENVIO_PENDIENTE = "Ultimo envio pendiente por ser entregado, debe esperar a que la entrega se realice";
+    public static final String TIPO_OBLIGATORIO = "El tipo del envio es obligatorio";
+    public static final String PESO_OBLIGATORIO = "El peso del envio es obligatorio";
+    public static final String VALOR_OBLIGATORIO = "El valor del envio es obligatorio";
     public static final Double COSTO_ADICIONAL = 10000.0;
     public static final Integer DIAS_ENTREGA_ENVIO = 5;
+
     private final RepositorioEnvio repositorioEnvio;
     private final RepositorioCliente repositorioCliente;
 
@@ -32,6 +36,9 @@ public class ServicioCrearEnvio {
 
     public Long ejecutar(Envio envio){
         ValidadorArgumento.validarObligatorio(envio.getFecha(),FECHA_OBLIGATORIA);
+        ValidadorArgumento.validarObligatorio(envio.getTipo(),TIPO_OBLIGATORIO);
+        ValidadorArgumento.validarObligatorio(envio.getPeso(),PESO_OBLIGATORIO);
+        ValidadorArgumento.validarObligatorio(envio.getValor(),VALOR_OBLIGATORIO);
         validarEntregaUltimoEnvioClienteEmisor(envio);
         validarExistenciaEmisorEnvio(envio);
         validarExistenciaReceptorEnvio(envio);
@@ -45,7 +52,7 @@ public class ServicioCrearEnvio {
 
     public void validarEntregaUltimoEnvioClienteEmisor(Envio envio) {
         LocalDateTime fechaUltimoEnvio = this.repositorioEnvio.ultimoEnvioClienteEmisor(envio.getCedulaEmisor());
-        if(fechaUltimoEnvio != LocalDateTime.MIN){
+        if(fechaUltimoEnvio !=null && fechaUltimoEnvio != LocalDateTime.MIN){
             int dias =1;
             while (dias<=DIAS_ENTREGA_ENVIO){
                 fechaUltimoEnvio = fechaUltimoEnvio.plusDays(1);
@@ -53,7 +60,6 @@ public class ServicioCrearEnvio {
                     throw new ExcepcionUltimoEnvioPendiente(ULTIMO_ENVIO_PENDIENTE);
                 }
                 if (fechaUltimoEnvio.getDayOfWeek() != DayOfWeek.SATURDAY && fechaUltimoEnvio.getDayOfWeek() != DayOfWeek.SUNDAY){
-                    System.out.println(dias);
                     dias++;
                 }
             }

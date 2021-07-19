@@ -1,8 +1,6 @@
 package com.ceiba.cliente.servicio.testdatabuilder;
 
 import com.ceiba.cliente.comando.ComandoCliente;
-import com.ceiba.cliente.modelo.entidad.Cliente;
-import com.ceiba.envio.comando.ComandoEnvio;
 
 public class ComandoClienteTestDataBuilder {
     private String cedula;

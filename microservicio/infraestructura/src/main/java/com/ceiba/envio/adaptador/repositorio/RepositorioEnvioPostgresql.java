@@ -22,6 +22,9 @@ public class RepositorioEnvioPostgresql implements RepositorioEnvio {
     @SqlStatement(namespace="envio", value="actualizar")
     private static String sqlActualizar;
 
+    @SqlStatement(namespace="envio", value="existe")
+    private static String sqlExiste;
+
     @SqlStatement(namespace="envio", value="ultimoEnvioClienteEmisor")
     private static String sqlUltimoEnvioClienteEmisor;
 
@@ -46,7 +49,10 @@ public class RepositorioEnvioPostgresql implements RepositorioEnvio {
 
     @Override
     public boolean existePorId(Long id) {
-        return false;
+        MapSqlParameterSource paramSource = new MapSqlParameterSource();
+        paramSource.addValue("id", id);
+
+        return this.customNamedParameterJdbcTemplate.getNamedParameterJdbcTemplate().queryForObject(sqlExiste,paramSource, Boolean.class);
     }
 
     @Override
