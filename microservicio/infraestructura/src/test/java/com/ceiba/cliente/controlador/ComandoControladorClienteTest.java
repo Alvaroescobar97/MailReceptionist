@@ -3,8 +3,6 @@ package com.ceiba.cliente.controlador;
 import com.ceiba.ApplicationMock;
 import com.ceiba.cliente.comando.ComandoCliente;
 import com.ceiba.cliente.servicio.testdatabuilder.ComandoClienteTestDataBuilder;
-import com.ceiba.envio.comando.ComandoEnvio;
-import com.ceiba.envio.servicio.testdatabuilder.ComandoEnvioTestDataBuilder;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,8 +12,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-
-import java.time.LocalDateTime;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;

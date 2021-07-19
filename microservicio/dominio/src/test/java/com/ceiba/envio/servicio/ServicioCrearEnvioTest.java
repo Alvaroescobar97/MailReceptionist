@@ -5,7 +5,6 @@ import com.ceiba.cliente.puerto.repositorio.RepositorioCliente;
 import com.ceiba.dominio.excepcion.*;
 import com.ceiba.envio.modelo.entidad.Envio;
 import com.ceiba.envio.puerto.repositorio.RepositorioEnvio;
-import com.ceiba.envio.servicio.ServicioCrearEnvio;
 import com.ceiba.envio.servicio.testdatabuilder.EnvioTestDataBuilder;
 import org.junit.Test;
 import org.mockito.Mockito;

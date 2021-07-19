@@ -42,7 +42,7 @@ public class RepositorioEnvioPostgresql implements RepositorioEnvio {
 
     @Override
     public void eliminar(Long id) {
-
+        // Do nothing because only where required two services
     }
 
     @Override
@@ -65,8 +65,7 @@ public class RepositorioEnvioPostgresql implements RepositorioEnvio {
                 return fecha;
             }
         }catch (Exception e){
-
+            throw new RuntimeException(e);
         }
-        return LocalDateTime.MIN;
     }
 }

@@ -5,7 +5,6 @@ import com.ceiba.cliente.modelo.entidad.Cliente;
 import com.ceiba.cliente.puerto.repositorio.RepositorioCliente;
 import com.ceiba.cliente.servicio.testdatabuilder.ClienteTestDataBuilder;
 import com.ceiba.dominio.excepcion.ExcepcionDuplicidad;
-import com.ceiba.dominio.excepcion.ExcepcionValorInvalido;
 import org.junit.Test;
 import org.mockito.Mockito;
 
