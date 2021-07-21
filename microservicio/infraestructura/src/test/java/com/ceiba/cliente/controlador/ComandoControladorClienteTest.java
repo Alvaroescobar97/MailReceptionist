@@ -9,6 +9,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.MediaType;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -28,6 +29,7 @@ public class ComandoControladorClienteTest {
     @Autowired
     private MockMvc mockMvc;
 
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
     @Test
     public void crear() throws Exception{
         ComandoCliente cliente = new ComandoClienteTestDataBuilder().conCedula("1478529636").conNombre("Felipe").conDireccion("Calle 23 #23-23").conTelefono(741852963L).conCiudad("Medellin").build();

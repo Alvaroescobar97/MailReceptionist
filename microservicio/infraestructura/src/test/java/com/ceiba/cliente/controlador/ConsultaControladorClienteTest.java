@@ -28,9 +28,9 @@ public class ConsultaControladorClienteTest {
     public void listar() throws Exception{
         mockMvc.perform(get("/clientes")
                 .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
-                //.andExpect(jsonPath("$",hasSize(2)))
-                //.andExpect(jsonPath("$[0].cedula", is("1234567890")))
-                //.andExpect(jsonPath("$[1].cedula", is("0987654321")));
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$",hasSize(2)))
+                .andExpect(jsonPath("$[0].cedula", is("1234567890")))
+                .andExpect(jsonPath("$[1].cedula", is("0987654321")));
     }
 }
