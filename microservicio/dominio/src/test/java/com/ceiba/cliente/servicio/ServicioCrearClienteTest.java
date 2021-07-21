@@ -18,6 +18,6 @@ public class ServicioCrearClienteTest {
         Mockito.when(repositorioCliente.crear(cliente)).thenReturn("1234567890");
         ServicioCrearCliente servicioCrearCliente = new ServicioCrearCliente(repositorioCliente);
 
-        BasePrueba.assertThrows(()-> servicioCrearCliente.validarExitenciaPrevia(cliente), ExcepcionDuplicidad.class , "La cedula del cliente ya existe en el sistema");
+        BasePrueba.assertThrows(()-> servicioCrearCliente.ejecutar(cliente), ExcepcionDuplicidad.class , "La cedula del cliente ya existe en el sistema");
     }
 }

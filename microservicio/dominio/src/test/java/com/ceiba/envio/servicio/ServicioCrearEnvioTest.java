@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class ServicioCrearEnvioTest {
 
-    private static final Double COSTO_ADICIONAL = 10000.0;
+    private static final Double COSTO_ADICIONAL = 11000.0;
 
     @Test
     public void validarEntregaUltimoEnvioEn5DiasHabiles(){
@@ -28,7 +28,7 @@ public class ServicioCrearEnvioTest {
         Mockito.when(repositorioEnvio.ultimoEnvioClienteEmisor(envio.getCedulaEmisor())).thenReturn(LocalDateTime.of(2021,7,19,0,0));
         ServicioCrearEnvio servicioCrearEnvio = new ServicioCrearEnvio(repositorioEnvio,repositorioCliente);
 
-        BasePrueba.assertThrows(()-> servicioCrearEnvio.validarEntregaUltimoEnvioClienteEmisor(envio), ExcepcionUltimoEnvioPendiente.class, "Ultimo envio pendiente por ser entregado, debe esperar a que la entrega se realice");
+        BasePrueba.assertThrows(()-> servicioCrearEnvio.ejecutar(envio), ExcepcionUltimoEnvioPendiente.class, "Ultimo envio pendiente por ser entregado, debe esperar a que la entrega se realice");
     }
 
     @Test
@@ -38,11 +38,11 @@ public class ServicioCrearEnvioTest {
         Mockito.when(repositorioCliente.existePorCedula("0987654321")).thenReturn(false);
 
         Envio envio = new EnvioTestDataBuilder().conCedulaEmisor("1234567890").conCedulaReceptor("0987654321").conFecha(LocalDateTime.of(2021,07,16,0,0)).conTipo(Envio.PAQUETE).conPeso(1.0).build();
-        RepositorioEnvio repositorioenvio = Mockito.mock(RepositorioEnvio.class);
-        Mockito.when(repositorioenvio.crear(envio)).thenReturn(1L);
-        ServicioCrearEnvio servicioCrearEnvio = new ServicioCrearEnvio(repositorioenvio,repositorioCliente);
+        RepositorioEnvio repositorioEnvio = Mockito.mock(RepositorioEnvio.class);
+        Mockito.when(repositorioEnvio.crear(envio)).thenReturn(1L);
+        ServicioCrearEnvio servicioCrearEnvio = new ServicioCrearEnvio(repositorioEnvio,repositorioCliente);
 
-        BasePrueba.assertThrows(()-> servicioCrearEnvio.validarExistenciaReceptorEnvio(envio), ExcepcionValorInvalido.class , "El RECEPTOR del correo NO existe en el sistema, debe registrarse primero");
+        BasePrueba.assertThrows(()-> servicioCrearEnvio.ejecutar(envio), ExcepcionValorInvalido.class , "El RECEPTOR del correo NO existe en el sistema, debe registrarse primero");
     }
 
     @Test
@@ -52,11 +52,11 @@ public class ServicioCrearEnvioTest {
         Mockito.when(repositorioCliente.existePorCedula("0987654321")).thenReturn(true);
 
         Envio envio = new EnvioTestDataBuilder().conCedulaEmisor("1234567890").conCedulaReceptor("0987654321").conFecha(LocalDateTime.of(2021,07,16,0,0)).conTipo(Envio.PAQUETE).conPeso(1.0).build();
-        RepositorioEnvio repositorioenvio = Mockito.mock(RepositorioEnvio.class);
-        Mockito.when(repositorioenvio.crear(envio)).thenReturn(1L);
-        ServicioCrearEnvio servicioCrearEnvio = new ServicioCrearEnvio(repositorioenvio,repositorioCliente);
+        RepositorioEnvio repositorioEnvio = Mockito.mock(RepositorioEnvio.class);
+        Mockito.when(repositorioEnvio.crear(envio)).thenReturn(1L);
+        ServicioCrearEnvio servicioCrearEnvio = new ServicioCrearEnvio(repositorioEnvio,repositorioCliente);
 
-        BasePrueba.assertThrows(()-> servicioCrearEnvio.validarExistenciaEmisorEnvio(envio), ExcepcionValorInvalido.class , "El EMISOR del correo NO existe en el sistema, debe registrarse primero");
+        BasePrueba.assertThrows(()-> servicioCrearEnvio.ejecutar(envio), ExcepcionValorInvalido.class , "El EMISOR del correo NO existe en el sistema, debe registrarse primero");
     }
 
     @Test
@@ -66,10 +66,10 @@ public class ServicioCrearEnvioTest {
         Mockito.when(repositorioCliente.existePorCedula("0987654321")).thenReturn(true);
 
         Envio envio = new EnvioTestDataBuilder().conCedulaEmisor("1234567890").conCedulaReceptor("0987654321").conFecha(LocalDateTime.of(2021,07,16,0,0)).conTipo(Envio.PAQUETE).conPeso(1.0).build();
-        RepositorioEnvio repositorioenvio = Mockito.mock(RepositorioEnvio.class);
-        Mockito.when(repositorioenvio.crear(envio)).thenReturn(1L);
-        ServicioCrearEnvio servicioCrearEnvio = new ServicioCrearEnvio(repositorioenvio,repositorioCliente);
-        servicioCrearEnvio.cobrarCostoAdicionalPorSerSabado(envio);
+        RepositorioEnvio repositorioEnvio = Mockito.mock(RepositorioEnvio.class);
+        Mockito.when(repositorioEnvio.crear(envio)).thenReturn(1L);
+        ServicioCrearEnvio servicioCrearEnvio = new ServicioCrearEnvio(repositorioEnvio,repositorioCliente);
+        servicioCrearEnvio.ejecutar(envio);
 
         assertTrue( envio.getValor()== 35000.0);
     }
@@ -80,108 +80,124 @@ public class ServicioCrearEnvioTest {
         Mockito.when(repositorioCliente.existePorCedula("1234567890")).thenReturn(true);
         Mockito.when(repositorioCliente.existePorCedula("0987654321")).thenReturn(true);
 
-        Envio envio = new EnvioTestDataBuilder().conFecha(LocalDateTime.of(2021,07,10,0,0)).conTipo(Envio.PAQUETE).conPeso(1.0).build();
-        RepositorioEnvio repositorioenvio = Mockito.mock(RepositorioEnvio.class);
-        Mockito.when(repositorioenvio.crear(envio)).thenReturn(1L);
-        ServicioCrearEnvio servicioCrearEnvio = new ServicioCrearEnvio(repositorioenvio,repositorioCliente);
-        servicioCrearEnvio.cobrarCostoAdicionalPorSerSabado(envio);
+        Envio envio = new EnvioTestDataBuilder().conCedulaEmisor("1234567890").conCedulaReceptor("0987654321").conFecha(LocalDateTime.of(2021,07,10,0,0)).conTipo(Envio.PAQUETE).conPeso(1.0).build();
+        RepositorioEnvio repositorioEnvio = Mockito.mock(RepositorioEnvio.class);
+        Mockito.when(repositorioEnvio.crear(envio)).thenReturn(1L);
+        ServicioCrearEnvio servicioCrearEnvio = new ServicioCrearEnvio(repositorioEnvio,repositorioCliente);
+        servicioCrearEnvio.ejecutar(envio);
 
         assertTrue(envio.getValor() == 35000.0 + COSTO_ADICIONAL);
     }
 
     @Test
     public void validarNegacionDeEnvioPorSerDomingo(){
-
-        Envio envio = new EnvioTestDataBuilder().conFecha(LocalDateTime.of(2021,07,11,0,0)).conTipo(Envio.CARTA).conPeso(1.0).build();
-        RepositorioEnvio repositorioenvio = Mockito.mock(RepositorioEnvio.class);
         RepositorioCliente repositorioCliente = Mockito.mock(RepositorioCliente.class);
-        Mockito.when(repositorioenvio.crear(envio)).thenReturn(1L);
-        ServicioCrearEnvio servicioCrearEnvio = new ServicioCrearEnvio(repositorioenvio,repositorioCliente);
+        Mockito.when(repositorioCliente.existePorCedula("1234567890")).thenReturn(true);
+        Mockito.when(repositorioCliente.existePorCedula("0987654321")).thenReturn(true);
 
-        BasePrueba.assertThrows(()-> servicioCrearEnvio.validarNegacionEnvio(envio), ExcepcionNegacionEnvio.class , "Los días Domingos no se reciben envios, por favor vuelva otro día");
+        Envio envio = new EnvioTestDataBuilder().conCedulaEmisor("1234567890").conCedulaReceptor("0987654321").conFecha(LocalDateTime.of(2021,07,11,0,0)).conTipo(Envio.CARTA).conPeso(1.0).build();
+        RepositorioEnvio repositorioEnvio = Mockito.mock(RepositorioEnvio.class);
+        Mockito.when(repositorioEnvio.crear(envio)).thenReturn(1L);
+        ServicioCrearEnvio servicioCrearEnvio = new ServicioCrearEnvio(repositorioEnvio,repositorioCliente);
+
+        BasePrueba.assertThrows(()-> servicioCrearEnvio.ejecutar(envio), ExcepcionNegacionEnvio.class , "Los días Domingos no se reciben envios, por favor vuelva otro día");
     }
 
     @Test
     public void validarTipoDeEnvioCartaOPaquete(){
-
-        Envio envio = new EnvioTestDataBuilder().conFecha(LocalDateTime.of(2021,07,9,0,0)).conTipo("SOBRE").conPeso(1.0).build();
-        RepositorioEnvio repositorioenvio = Mockito.mock(RepositorioEnvio.class);
         RepositorioCliente repositorioCliente = Mockito.mock(RepositorioCliente.class);
-        Mockito.when(repositorioenvio.crear(envio)).thenReturn(1L);
-        ServicioCrearEnvio servicioCrearEnvio = new ServicioCrearEnvio(repositorioenvio,repositorioCliente);
+        Mockito.when(repositorioCliente.existePorCedula("1234567890")).thenReturn(true);
+        Mockito.when(repositorioCliente.existePorCedula("0987654321")).thenReturn(true);
 
-        BasePrueba.assertThrows(()-> servicioCrearEnvio.validarTipoDeEnvio(envio), ExcepcionTipoEnvio.class , "Solo se aceptan envios de CARTAS o PAQUETES");
+        Envio envio = new EnvioTestDataBuilder().conCedulaEmisor("1234567890").conCedulaReceptor("0987654321").conFecha(LocalDateTime.of(2021,07,9,0,0)).conTipo("SOBRE").conPeso(1.0).build();
+        RepositorioEnvio repositorioEnvio = Mockito.mock(RepositorioEnvio.class);
+        Mockito.when(repositorioEnvio.crear(envio)).thenReturn(1L);
+        ServicioCrearEnvio servicioCrearEnvio = new ServicioCrearEnvio(repositorioEnvio,repositorioCliente);
+
+        BasePrueba.assertThrows(()-> servicioCrearEnvio.ejecutar(envio), ExcepcionTipoEnvio.class , "Solo se aceptan envios de CARTAS o PAQUETES");
     }
 
     @Test
     public void validarTipoDeEnvioCarta(){
-
-        Envio envio = new EnvioTestDataBuilder().conFecha(LocalDateTime.of(2021,07,9,0,0)).conTipo(Envio.CARTA).conPeso(0.0).build();
-        RepositorioEnvio repositorioenvio = Mockito.mock(RepositorioEnvio.class);
         RepositorioCliente repositorioCliente = Mockito.mock(RepositorioCliente.class);
-        Mockito.when(repositorioenvio.crear(envio)).thenReturn(1L);
-        ServicioCrearEnvio servicioCrearEnvio = new ServicioCrearEnvio(repositorioenvio,repositorioCliente);
+        Mockito.when(repositorioCliente.existePorCedula("1234567890")).thenReturn(true);
+        Mockito.when(repositorioCliente.existePorCedula("0987654321")).thenReturn(true);
 
-        assertDoesNotThrow(()-> servicioCrearEnvio.validarTipoDeEnvio(envio) , "Solo se aceptan envios de CARTAS o PAQUETES");
+        Envio envio = new EnvioTestDataBuilder().conCedulaEmisor("1234567890").conCedulaReceptor("0987654321").conFecha(LocalDateTime.of(2021,07,9,0,0)).conTipo(Envio.CARTA).conPeso(0.0).build();
+        RepositorioEnvio repositorioEnvio = Mockito.mock(RepositorioEnvio.class);
+        Mockito.when(repositorioEnvio.crear(envio)).thenReturn(1L);
+        ServicioCrearEnvio servicioCrearEnvio = new ServicioCrearEnvio(repositorioEnvio,repositorioCliente);
+
+        assertDoesNotThrow(()-> servicioCrearEnvio.ejecutar(envio) , "Solo se aceptan envios de CARTAS o PAQUETES");
     }
 
     @Test
     public void validarTipoDeEnvioPaquete(){
-
-        Envio envio = new EnvioTestDataBuilder().conFecha(LocalDateTime.of(2021,07,9,0,0)).conTipo(Envio.PAQUETE).conPeso(1.0).build();
-        RepositorioEnvio repositorioenvio = Mockito.mock(RepositorioEnvio.class);
         RepositorioCliente repositorioCliente = Mockito.mock(RepositorioCliente.class);
-        Mockito.when(repositorioenvio.crear(envio)).thenReturn(1L);
-        ServicioCrearEnvio servicioCrearEnvio = new ServicioCrearEnvio(repositorioenvio,repositorioCliente);
+        Mockito.when(repositorioCliente.existePorCedula("1234567890")).thenReturn(true);
+        Mockito.when(repositorioCliente.existePorCedula("0987654321")).thenReturn(true);
 
-        assertDoesNotThrow(()-> servicioCrearEnvio.validarTipoDeEnvio(envio) , "Solo se aceptan envios de CARTAS o PAQUETES");
+        Envio envio = new EnvioTestDataBuilder().conCedulaEmisor("1234567890").conCedulaReceptor("0987654321").conFecha(LocalDateTime.of(2021,07,9,0,0)).conTipo(Envio.PAQUETE).conPeso(1.0).build();
+        RepositorioEnvio repositorioEnvio = Mockito.mock(RepositorioEnvio.class);
+        Mockito.when(repositorioEnvio.crear(envio)).thenReturn(1L);
+        ServicioCrearEnvio servicioCrearEnvio = new ServicioCrearEnvio(repositorioEnvio,repositorioCliente);
+
+        assertDoesNotThrow(()-> servicioCrearEnvio.ejecutar(envio) , "Solo se aceptan envios de CARTAS o PAQUETES");
     }
 
     @Test
     public void validarPesoDeTipoEnvioCartaCorrecto(){
-
-        Envio envio = new EnvioTestDataBuilder().conFecha(LocalDateTime.of(2021,07,9,0,0)).conTipo(Envio.CARTA).conPeso(0.0).build();
-        RepositorioEnvio repositorioenvio = Mockito.mock(RepositorioEnvio.class);
         RepositorioCliente repositorioCliente = Mockito.mock(RepositorioCliente.class);
-        Mockito.when(repositorioenvio.crear(envio)).thenReturn(1L);
-        ServicioCrearEnvio servicioCrearEnvio = new ServicioCrearEnvio(repositorioenvio,repositorioCliente);
+        Mockito.when(repositorioCliente.existePorCedula("1234567890")).thenReturn(true);
+        Mockito.when(repositorioCliente.existePorCedula("0987654321")).thenReturn(true);
 
-        assertDoesNotThrow(()-> servicioCrearEnvio.validarPesoDependiendoDelTipo(envio) , "Las CARTAS NO deben tener peso, es decir peso = 0");
+        Envio envio = new EnvioTestDataBuilder().conCedulaEmisor("1234567890").conCedulaReceptor("0987654321").conFecha(LocalDateTime.of(2021,07,9,0,0)).conTipo(Envio.CARTA).conPeso(0.0).build();
+        RepositorioEnvio repositorioEnvio = Mockito.mock(RepositorioEnvio.class);
+        Mockito.when(repositorioEnvio.crear(envio)).thenReturn(1L);
+        ServicioCrearEnvio servicioCrearEnvio = new ServicioCrearEnvio(repositorioEnvio,repositorioCliente);
+
+        assertDoesNotThrow(()-> servicioCrearEnvio.ejecutar(envio) , "Las CARTAS NO deben tener peso, es decir peso = 0");
     }
 
     @Test
     public void validarPesoDeTipoEnvioCartaErroneo(){
-
-        Envio envio = new EnvioTestDataBuilder().conFecha(LocalDateTime.of(2021,07,9,0,0)).conTipo(Envio.CARTA).conPeso(1.0).build();
-        RepositorioEnvio repositorioenvio = Mockito.mock(RepositorioEnvio.class);
         RepositorioCliente repositorioCliente = Mockito.mock(RepositorioCliente.class);
-        Mockito.when(repositorioenvio.crear(envio)).thenReturn(1L);
-        ServicioCrearEnvio servicioCrearEnvio = new ServicioCrearEnvio(repositorioenvio,repositorioCliente);
+        Mockito.when(repositorioCliente.existePorCedula("1234567890")).thenReturn(true);
+        Mockito.when(repositorioCliente.existePorCedula("0987654321")).thenReturn(true);
 
-        BasePrueba.assertThrows(()-> servicioCrearEnvio.validarPesoDependiendoDelTipo(envio), ExcepcionPesoInvalido.class , "Las CARTAS NO deben tener peso, es decir peso = 0");
+        Envio envio = new EnvioTestDataBuilder().conCedulaEmisor("1234567890").conCedulaReceptor("0987654321").conFecha(LocalDateTime.of(2021,07,9,0,0)).conTipo(Envio.CARTA).conPeso(1.0).build();
+        RepositorioEnvio repositorioEnvio = Mockito.mock(RepositorioEnvio.class);
+        Mockito.when(repositorioEnvio.crear(envio)).thenReturn(1L);
+        ServicioCrearEnvio servicioCrearEnvio = new ServicioCrearEnvio(repositorioEnvio,repositorioCliente);
+
+        BasePrueba.assertThrows(()-> servicioCrearEnvio.ejecutar(envio), ExcepcionPesoInvalido.class , "Las CARTAS NO deben tener peso, es decir peso = 0");
     }
 
     @Test
     public void validarPesoDeTipoEnvioPaqueteCorrecto(){
-
-        Envio envio = new EnvioTestDataBuilder().conFecha(LocalDateTime.of(2021,07,9,0,0)).conTipo(Envio.PAQUETE).conPeso(12.0).build();
-        RepositorioEnvio repositorioenvio = Mockito.mock(RepositorioEnvio.class);
         RepositorioCliente repositorioCliente = Mockito.mock(RepositorioCliente.class);
-        Mockito.when(repositorioenvio.crear(envio)).thenReturn(1L);
-        ServicioCrearEnvio servicioCrearEnvio = new ServicioCrearEnvio(repositorioenvio,repositorioCliente);
+        Mockito.when(repositorioCliente.existePorCedula("1234567890")).thenReturn(true);
+        Mockito.when(repositorioCliente.existePorCedula("0987654321")).thenReturn(true);
 
-        assertDoesNotThrow(()-> servicioCrearEnvio.validarPesoDependiendoDelTipo(envio) , "Los PAQUETES deben tener peso");
+        Envio envio = new EnvioTestDataBuilder().conCedulaEmisor("1234567890").conCedulaReceptor("0987654321").conFecha(LocalDateTime.of(2021,07,9,0,0)).conTipo(Envio.PAQUETE).conPeso(12.0).build();
+        RepositorioEnvio repositorioEnvio = Mockito.mock(RepositorioEnvio.class);
+        Mockito.when(repositorioEnvio.crear(envio)).thenReturn(1L);
+        ServicioCrearEnvio servicioCrearEnvio = new ServicioCrearEnvio(repositorioEnvio,repositorioCliente);
+
+        assertDoesNotThrow(()-> servicioCrearEnvio.ejecutar(envio) , "Los PAQUETES deben tener peso");
     }
 
     @Test
     public void validarPesoDeTipoEnvioPaqueteErroneo(){
-
-        Envio envio = new EnvioTestDataBuilder().conFecha(LocalDateTime.of(2021,07,9,0,0)).conTipo(Envio.PAQUETE).conPeso(0.0).build();
-        RepositorioEnvio repositorioenvio = Mockito.mock(RepositorioEnvio.class);
         RepositorioCliente repositorioCliente = Mockito.mock(RepositorioCliente.class);
-        Mockito.when(repositorioenvio.crear(envio)).thenReturn(1L);
-        ServicioCrearEnvio servicioCrearEnvio = new ServicioCrearEnvio(repositorioenvio,repositorioCliente);
+        Mockito.when(repositorioCliente.existePorCedula("1234567890")).thenReturn(true);
+        Mockito.when(repositorioCliente.existePorCedula("0987654321")).thenReturn(true);
 
-        BasePrueba.assertThrows(()-> servicioCrearEnvio.validarPesoDependiendoDelTipo(envio), ExcepcionPesoInvalido.class , "Los PAQUETES deben tener peso");
+        Envio envio = new EnvioTestDataBuilder().conCedulaEmisor("1234567890").conCedulaReceptor("0987654321").conFecha(LocalDateTime.of(2021,07,9,0,0)).conTipo(Envio.PAQUETE).conPeso(0.0).build();
+        RepositorioEnvio repositorioEnvio = Mockito.mock(RepositorioEnvio.class);
+        Mockito.when(repositorioEnvio.crear(envio)).thenReturn(1L);
+        ServicioCrearEnvio servicioCrearEnvio = new ServicioCrearEnvio(repositorioEnvio,repositorioCliente);
+
+        BasePrueba.assertThrows(()-> servicioCrearEnvio.ejecutar(envio), ExcepcionPesoInvalido.class , "Los PAQUETES deben tener peso");
     }
 }

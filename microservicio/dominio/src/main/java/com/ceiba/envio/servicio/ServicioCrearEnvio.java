@@ -23,7 +23,7 @@ public class ServicioCrearEnvio {
     public static final String TIPO_OBLIGATORIO = "El tipo del envio es obligatorio";
     public static final String PESO_OBLIGATORIO = "El peso del envio es obligatorio";
     public static final String VALOR_OBLIGATORIO = "El valor del envio es obligatorio";
-    public static final Double COSTO_ADICIONAL = 10000.0;
+    public static final Double COSTO_ADICIONAL = 11000.0;
     public static final Integer DIAS_ENTREGA_ENVIO = 5;
 
     private final RepositorioEnvio repositorioEnvio;
@@ -50,7 +50,7 @@ public class ServicioCrearEnvio {
         return this.repositorioEnvio.crear(envio);
     }
 
-    public void validarEntregaUltimoEnvioClienteEmisor(Envio envio) {
+    private void validarEntregaUltimoEnvioClienteEmisor(Envio envio) {
         LocalDateTime fechaUltimoEnvio = this.repositorioEnvio.ultimoEnvioClienteEmisor(envio.getCedulaEmisor());
         if(fechaUltimoEnvio !=null && fechaUltimoEnvio != LocalDateTime.MIN){
             int dias =1;
@@ -66,33 +66,33 @@ public class ServicioCrearEnvio {
         }
     }
 
-    public void validarExistenciaEmisorEnvio(Envio envio) {
+    private void validarExistenciaEmisorEnvio(Envio envio) {
         boolean existeEmisor = this.repositorioCliente.existePorCedula(envio.getCedulaEmisor());
         if(!existeEmisor){
             throw new ExcepcionValorInvalido(CEDULA_EMISOR_INVALIDA);
         }
     }
 
-    public void validarExistenciaReceptorEnvio(Envio envio) {
+    private void validarExistenciaReceptorEnvio(Envio envio) {
         boolean existeReceptor = this.repositorioCliente.existePorCedula(envio.getCedulaReceptor());
         if(!existeReceptor){
             throw new ExcepcionValorInvalido(CEDULA_RECEPTOR_INVALIDA);
         }
     }
 
-    public void cobrarCostoAdicionalPorSerSabado(Envio envio){
+    private void cobrarCostoAdicionalPorSerSabado(Envio envio){
         if(envio.getFecha().getDayOfWeek() == DayOfWeek.SATURDAY){
             envio.setValor(envio.getValor()+COSTO_ADICIONAL);
         }
     }
 
-    public void validarTipoDeEnvio(Envio envio){
+    private void validarTipoDeEnvio(Envio envio){
         if (!envio.getTipo().equals(Envio.PAQUETE) && !envio.getTipo().equals(Envio.CARTA)){
             throw new ExcepcionTipoEnvio(TIPO_ENVIO_ERRONEO);
         }
     }
 
-    public void validarPesoDependiendoDelTipo(Envio envio){
+    private void validarPesoDependiendoDelTipo(Envio envio){
         if (envio.getTipo().equals(Envio.PAQUETE) && envio.getPeso()<=0){
             throw new ExcepcionPesoInvalido(PESO_PAQUETE_INVALIDO);
         }else if(envio.getTipo().equals(Envio.CARTA) && envio.getPeso()>0){
@@ -100,7 +100,7 @@ public class ServicioCrearEnvio {
         }
     }
 
-    public void validarNegacionEnvio(Envio envio){
+    private void validarNegacionEnvio(Envio envio){
         if (envio.getFecha().getDayOfWeek() == DayOfWeek.SUNDAY){
             throw new ExcepcionNegacionEnvio(NEGACION_ENVIO);
         }
