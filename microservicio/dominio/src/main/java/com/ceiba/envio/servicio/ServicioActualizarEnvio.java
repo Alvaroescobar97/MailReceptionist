@@ -1,7 +1,6 @@
 package com.ceiba.envio.servicio;
 
 import com.ceiba.cliente.puerto.repositorio.RepositorioCliente;
-import com.ceiba.dominio.ValidadorArgumento;
 import com.ceiba.dominio.excepcion.*;
 import com.ceiba.envio.modelo.entidad.Envio;
 import com.ceiba.envio.puerto.repositorio.RepositorioEnvio;
@@ -16,10 +15,6 @@ public class ServicioActualizarEnvio {
     public static final String PESO_CARTA_INVALIDO = "Las CARTAS NO deben tener peso, es decir peso = 0";
     public static final String CEDULA_EMISOR_INVALIDA = "El EMISOR del correo NO existe en el sistema, debe registrarse primero";
     public static final String CEDULA_RECEPTOR_INVALIDA = "El RECEPTOR del correo NO existe en el sistema, debe registrarse primero";
-    public static final String TIPO_OBLIGATORIO = "El tipo del envio es obligatorio";
-    public static final String PESO_OBLIGATORIO = "El peso del envio es obligatorio";
-    public static final String VALOR_OBLIGATORIO = "El valor del envio es obligatorio";
-    public static final String FECHA_OBLIGATORIA = "La fecha del envio es obligatoria";
 
     public static final Double COSTO_ADICIONAL = 10000.0;
 
@@ -32,17 +27,13 @@ public class ServicioActualizarEnvio {
     }
 
     public void ejecutar(Envio envio){
-        ValidadorArgumento.validarObligatorio(envio.getFecha(),FECHA_OBLIGATORIA);
-        ValidadorArgumento.validarObligatorio(envio.getTipo(),TIPO_OBLIGATORIO);
-        ValidadorArgumento.validarObligatorio(envio.getPeso(),PESO_OBLIGATORIO);
-        ValidadorArgumento.validarObligatorio(envio.getValor(),VALOR_OBLIGATORIO);
         validarExistenciaPrevia(envio);
         validarExistenciaEmisorEnvio(envio);
         validarExistenciaReceptorEnvio(envio);
-        validarNegacionEnvio(envio);
-        validarTipoDeEnvio(envio);
-        validarPesoDependiendoDelTipo(envio);
-        cobrarCostoAdicionalPorSerSabado(envio);
+        envio.cobrarCostoAdicionalPorSerSabado();
+        envio.validarTipoDeEnvio();
+        envio.validarPesoDependiendoDelTipo();
+        envio.validarNegacionEnvio();
 
         this.repositorioEnvio.actualizar(envio);
     }
@@ -68,29 +59,4 @@ public class ServicioActualizarEnvio {
         }
     }
 
-    private void cobrarCostoAdicionalPorSerSabado(Envio envio){
-        if(envio.getFecha() != null && envio.getFecha().getDayOfWeek() == DayOfWeek.SATURDAY){
-            envio.setValor(envio.getValor()+COSTO_ADICIONAL);
-        }
-    }
-
-    private void validarTipoDeEnvio(Envio envio){
-        if (envio.getTipo() != null && !envio.getTipo().equals(Envio.PAQUETE) && !envio.getTipo().equals(Envio.CARTA)){
-            throw new ExcepcionTipoEnvio(TIPO_ENVIO_ERRONEO);
-        }
-    }
-
-    private void validarPesoDependiendoDelTipo(Envio envio){
-        if (envio.getTipo() != null && envio.getTipo().equals(Envio.PAQUETE) && envio.getPeso()<=0){
-            throw new ExcepcionPesoInvalido(PESO_PAQUETE_INVALIDO);
-        }else if(envio.getTipo() != null && envio.getTipo().equals(Envio.CARTA) && envio.getPeso()>0){
-            throw new ExcepcionPesoInvalido(PESO_CARTA_INVALIDO);
-        }
-    }
-
-    private void validarNegacionEnvio(Envio envio){
-        if (envio.getFecha() != null && envio.getFecha().getDayOfWeek() == DayOfWeek.SUNDAY){
-            throw new ExcepcionNegacionEnvio(NEGACION_ENVIO);
-        }
-    }
 }

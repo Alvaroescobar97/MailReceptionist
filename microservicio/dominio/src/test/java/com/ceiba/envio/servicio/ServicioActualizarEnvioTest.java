@@ -15,8 +15,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class ServicioActualizarEnvioTest {
 
-    private static final Double COSTO_ADICIONAL = 10000.0;
-
     @Test
     public void validarExistenciaPreviaDeEnvioPorId(){
         RepositorioCliente repositorioCliente = Mockito.mock(RepositorioCliente.class);
@@ -86,7 +84,7 @@ public class ServicioActualizarEnvioTest {
         ServicioActualizarEnvio servicioActualizarEnvio = new ServicioActualizarEnvio(repositorioEnvio,repositorioCliente);
         servicioActualizarEnvio.ejecutar(envio);
 
-        assertTrue( envio.getValor() == 35000.0 + COSTO_ADICIONAL);
+        assertTrue( envio.getValor() == 46000.0);
     }
 
     @Test
@@ -95,7 +93,7 @@ public class ServicioActualizarEnvioTest {
         Mockito.when(repositorioCliente.existePorCedula("1234567890")).thenReturn(true);
         Mockito.when(repositorioCliente.existePorCedula("0987654321")).thenReturn(true);
 
-        Envio envio = new EnvioTestDataBuilder().conCedulaEmisor("1234567890").conCedulaReceptor("0987654321").conFecha(LocalDateTime.of(2021,07,11,0,0)).conTipo(Envio.CARTA).conPeso(1.0).build();
+        Envio envio = new EnvioTestDataBuilder().conCedulaEmisor("1234567890").conCedulaReceptor("0987654321").conFecha(LocalDateTime.of(2021,07,11,0,0)).conTipo(Envio.CARTA).conPeso(0.0).build();
         RepositorioEnvio repositorioEnvio = Mockito.mock(RepositorioEnvio.class);
         Mockito.when(repositorioEnvio.existePorId(envio.getId())).thenReturn(true);
         ServicioActualizarEnvio servicioActualizarEnvio = new ServicioActualizarEnvio(repositorioEnvio,repositorioCliente);
