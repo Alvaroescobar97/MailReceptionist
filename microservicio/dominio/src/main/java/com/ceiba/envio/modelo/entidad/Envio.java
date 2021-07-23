@@ -4,8 +4,6 @@ import com.ceiba.dominio.ValidadorArgumento;
 import com.ceiba.dominio.excepcion.ExcepcionNegacionEnvio;
 import com.ceiba.dominio.excepcion.ExcepcionPesoInvalido;
 import com.ceiba.dominio.excepcion.ExcepcionTipoEnvio;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;

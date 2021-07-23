@@ -4,7 +4,6 @@ import com.ceiba.cliente.puerto.repositorio.RepositorioCliente;
 import com.ceiba.dominio.excepcion.*;
 import com.ceiba.envio.modelo.entidad.Envio;
 import com.ceiba.envio.puerto.repositorio.RepositorioEnvio;
-import java.time.DayOfWeek;
 
 public class ServicioActualizarEnvio {
 
