@@ -9,14 +9,16 @@ server:
       context-path: /Dispatch
       session:
          timeout: 21600s
-
 spring:
-   datasource:
-      driver-class-name:  org.postgresql.Driver
-      type: com.zaxxer.hikari.HikariDataSource
-      jdbcUrl: jdbc:postgresql://localhost:5432/mail-adn
-      username: postgres
-      password: kayser
-      initialization-mode: always
-      hikari:
-         poolName: pool
+   profiles:
+      active: dev
+   #spring:
+      #datasource:
+      #driver-class-name:  org.postgresql.Driver
+      #type: com.zaxxer.hikari.HikariDataSource
+      #jdbcUrl: jdbc:postgresql://localhost:5432/mail-adn
+      #username: postgres
+      #password: kayser
+      #initialization-mode: always
+      #hikari:
+   #poolName: pool

@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+    app:
+      image: 'app:latest'
+      ports:
+        - "8080:12000"
+      build:
+        context: .
+        dockerfile: Dockerfile
+      container_name: app
+      restart: always
+      depends_on:
+        - db
+      network_mode: mailreceptionist_default   
+    db:
+      image: 'postgres:latest'
+      ports:
+        - "35000:5432"
+      container_name: db
+      restart: always
+      environment: 
+        POSTGRES_DB: mail-adn
+        POSTGRES_USERNAME: postgres
+        POSTGRES_PASSWORD: kayser
+      network_mode: mailreceptionist_default
+volumes:
+    db-data:

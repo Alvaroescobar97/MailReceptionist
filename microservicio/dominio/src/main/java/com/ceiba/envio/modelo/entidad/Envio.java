@@ -36,6 +36,7 @@ public class Envio {
         ValidadorArgumento.validarObligatorio(tipo,TIPO_OBLIGATORIO);
         ValidadorArgumento.validarObligatorio(peso,PESO_OBLIGATORIO);
         ValidadorArgumento.validarObligatorio(valor,VALOR_OBLIGATORIO);
+
         this.id = id;
         this.cedulaEmisor = cedulaEmisor;
         this.cedulaReceptor = cedulaReceptor;

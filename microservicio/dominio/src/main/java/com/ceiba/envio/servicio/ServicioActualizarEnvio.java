@@ -29,6 +29,7 @@ public class ServicioActualizarEnvio {
         validarExistenciaPrevia(envio);
         validarExistenciaEmisorEnvio(envio);
         validarExistenciaReceptorEnvio(envio);
+
         envio.cobrarCostoAdicionalPorSerSabado();
         envio.validarTipoDeEnvio();
         envio.validarPesoDependiendoDelTipo();

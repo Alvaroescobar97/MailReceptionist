@@ -30,6 +30,7 @@ public class ServicioCrearEnvio {
         validarEntregaUltimoEnvioClienteEmisor(envio);
         validarExistenciaEmisorEnvio(envio);
         validarExistenciaReceptorEnvio(envio);
+
         envio.cobrarCostoAdicionalPorSerSabado();
         envio.validarTipoDeEnvio();
         envio.validarPesoDependiendoDelTipo();
