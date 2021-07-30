@@ -16,7 +16,21 @@ import static org.junit.jupiter.api.Assertions.*;
 public class ServicioCrearEnvioTest {
 
     @Test
-    public void validarEntregaUltimoEnvioEn5DiasHabiles(){
+    public void validarEntregaUltimoEnvioEn5DiasHabilesRealizada(){
+        RepositorioCliente repositorioCliente = Mockito.mock(RepositorioCliente.class);
+        Mockito.when(repositorioCliente.existePorCedula("1234567890")).thenReturn(true);
+        Mockito.when(repositorioCliente.existePorCedula("0987654321")).thenReturn(true);
+
+        Envio envio = new EnvioTestDataBuilder().conCedulaEmisor("0987654321").conCedulaReceptor("1234567890").conFecha(LocalDateTime.of(2021,7,27,0,0)).conTipo(Envio.PAQUETE).conPeso(1.0).build();
+        RepositorioEnvio repositorioEnvio = Mockito.mock(RepositorioEnvio.class);
+        Mockito.when(repositorioEnvio.ultimoEnvioClienteEmisor(envio.getCedulaEmisor())).thenReturn(LocalDateTime.of(2021,7,19,0,0));
+        ServicioCrearEnvio servicioCrearEnvio = new ServicioCrearEnvio(repositorioEnvio,repositorioCliente);
+
+        assertDoesNotThrow(()-> servicioCrearEnvio.ejecutar(envio) , "Ultimo envio pendiente por ser entregado, debe esperar a que la entrega se realice");
+    }
+
+    @Test
+    public void validarEntregaUltimoEnvioEn5DiasHabilesPendiente(){
         RepositorioCliente repositorioCliente = Mockito.mock(RepositorioCliente.class);
         Mockito.when(repositorioCliente.existePorCedula("1234567890")).thenReturn(true);
         Mockito.when(repositorioCliente.existePorCedula("0987654321")).thenReturn(true);

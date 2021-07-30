@@ -41,8 +41,8 @@ public class ServicioCrearEnvio {
 
     private void validarEntregaUltimoEnvioClienteEmisor(Envio envio) {
         LocalDateTime fechaUltimoEnvio = this.repositorioEnvio.ultimoEnvioClienteEmisor(envio.getCedulaEmisor());
-        if(fechaUltimoEnvio !=null && fechaUltimoEnvio != LocalDateTime.MIN){
-            int dias =1;
+        if(fechaUltimoEnvio != null && fechaUltimoEnvio != LocalDateTime.MIN){
+            int dias = 1;
             while (dias<=DIAS_ENTREGA_ENVIO){
                 fechaUltimoEnvio = fechaUltimoEnvio.plusDays(1);
                 if(fechaUltimoEnvio.isAfter(envio.getFecha()) || fechaUltimoEnvio.isEqual(envio.getFecha())){
