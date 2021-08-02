@@ -3,8 +3,8 @@ spring:
       driver-class-name:  org.postgresql.Driver
       type: com.zaxxer.hikari.HikariDataSource
       jdbcUrl: jdbc:postgresql://localhost:5432/mail-adn
-      username: postgres
-      password: kayser
+      username: ENC(ineG+s/hwhIzbT5G9SIC7CyGcM7R/Cpd)
+      password: ENC(ZQ5BhDO4bRt2bNOS2O4RLA==)
       initialization-mode: always
       hikari:
         poolName: pool
