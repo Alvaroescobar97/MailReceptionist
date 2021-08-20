@@ -4,6 +4,7 @@ import com.ceiba.ComandoRespuesta;
 import com.ceiba.envio.comando.ComandoEnvio;
 import com.ceiba.envio.comando.manejador.ManejadorActualizarEnvio;
 import com.ceiba.envio.comando.manejador.ManejadorCrearEnvio;
+import com.ceiba.envio.comando.manejador.ManejadorEliminarEnvio;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,11 +19,13 @@ public class ComandoControladorEnvio {
 
     private final ManejadorCrearEnvio manejadorCrearEnvio;
     private final ManejadorActualizarEnvio manejadorActualizarEnvio;
+    private final ManejadorEliminarEnvio manejadorEliminarEnvio;
 
     @Autowired
-    public ComandoControladorEnvio(ManejadorCrearEnvio manejadorCrearEnvio, ManejadorActualizarEnvio manejadorActualizarEnvio) {
+    public ComandoControladorEnvio(ManejadorCrearEnvio manejadorCrearEnvio, ManejadorActualizarEnvio manejadorActualizarEnvio, ManejadorEliminarEnvio manejadorEliminarEnvio) {
         this.manejadorCrearEnvio = manejadorCrearEnvio;
         this.manejadorActualizarEnvio = manejadorActualizarEnvio;
+        this.manejadorEliminarEnvio = manejadorEliminarEnvio;
     }
 
     @PostMapping
@@ -37,7 +40,14 @@ public class ComandoControladorEnvio {
     public ResponseEntity<Long> actualizar(@RequestBody ComandoEnvio comandoEnvio, @PathVariable Long id){
         comandoEnvio.setId(id);
         manejadorActualizarEnvio.ejecutar(comandoEnvio);
-        return new ResponseEntity<>(id,HttpStatus.OK);
+        return new ResponseEntity<>(comandoEnvio.getId(),HttpStatus.OK);
+    }
+
+    @DeleteMapping(value = "/{id}")
+    @ApiOperation("Eliminar Envio")
+    public ResponseEntity<ComandoRespuesta<Boolean>> eliminar(@PathVariable Long id){
+        ComandoRespuesta comandoRespuesta = manejadorEliminarEnvio.ejecutar(id);
+        return new ResponseEntity<>(comandoRespuesta,HttpStatus.OK);
     }
 
 }

@@ -26,6 +26,9 @@ public class RepositorioEnvioPostgresql implements RepositorioEnvio {
     @SqlStatement(namespace="envio", value="ultimoEnvioClienteEmisor")
     private static String sqlUltimoEnvioClienteEmisor;
 
+    @SqlStatement(namespace="envio", value="eliminar")
+    private static String sqlEliminar;
+
     public RepositorioEnvioPostgresql(CustomNamedParameterJdbcTemplate customNamedParameterJdbcTemplate) {
         this.customNamedParameterJdbcTemplate = customNamedParameterJdbcTemplate;
     }
@@ -41,8 +44,14 @@ public class RepositorioEnvioPostgresql implements RepositorioEnvio {
     }
 
     @Override
-    public void eliminar(Long id) {
-        // Do nothing because only where required two services
+    public boolean eliminar(Long id) {
+        boolean deleted = false;
+        MapSqlParameterSource paramSource = new MapSqlParameterSource();
+        paramSource.addValue("id", id);
+        if(this.customNamedParameterJdbcTemplate.getNamedParameterJdbcTemplate().update(sqlEliminar, paramSource)==1){
+            deleted = true;
+        }
+        return deleted;
     }
 
     @Override
@@ -50,7 +59,7 @@ public class RepositorioEnvioPostgresql implements RepositorioEnvio {
         MapSqlParameterSource paramSource = new MapSqlParameterSource();
         paramSource.addValue("id", id);
 
-        return this.customNamedParameterJdbcTemplate.getNamedParameterJdbcTemplate().queryForObject(sqlExiste,paramSource, Boolean.class);
+        return this.customNamedParameterJdbcTemplate.getNamedParameterJdbcTemplate().queryForObject(sqlExiste, paramSource, Boolean.class);
     }
 
     @Override

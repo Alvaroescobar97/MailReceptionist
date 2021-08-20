@@ -14,7 +14,12 @@ public interface RepositorioEnvio {
 
     void actualizar(Envio envio);
 
-    void eliminar(Long id);
+    /**
+     * Elimina un envio por id
+     * @param id
+     * @return si se elimino o no
+     */
+    boolean eliminar(Long id);
 
     /**
      * Permite validar si existe un envio por id
