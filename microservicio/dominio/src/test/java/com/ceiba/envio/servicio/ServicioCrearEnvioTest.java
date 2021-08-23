@@ -16,6 +16,20 @@ import static org.junit.jupiter.api.Assertions.*;
 public class ServicioCrearEnvioTest {
 
     @Test
+    public void validarExistenciaPreviaDeEnvioPorId(){
+        RepositorioCliente repositorioCliente = Mockito.mock(RepositorioCliente.class);
+        Mockito.when(repositorioCliente.existePorCedula("1234567890")).thenReturn(true);
+        Mockito.when(repositorioCliente.existePorCedula("0987654321")).thenReturn(true);
+
+        Envio envio = new EnvioTestDataBuilder().conCedulaEmisor("1234567890").conCedulaReceptor("0987654321").conFecha(LocalDateTime.of(2021,07,16,0,0)).conTipo(Envio.PAQUETE).conPeso(1.0).build();
+        RepositorioEnvio repositorioEnvio = Mockito.mock(RepositorioEnvio.class);
+        Mockito.when(repositorioEnvio.existePorId(envio.getId())).thenReturn(true);
+        ServicioCrearEnvio servicioCrearEnvio = new ServicioCrearEnvio(repositorioEnvio,repositorioCliente);
+
+        BasePrueba.assertThrows(()-> servicioCrearEnvio.ejecutar(envio), ExcepcionDuplicidad.class , "Ya existe un envio con ese ID por favor intente con otro");
+    }
+
+    @Test
     public void validarEntregaUltimoEnvioEn5DiasHabilesRealizada(){
         RepositorioCliente repositorioCliente = Mockito.mock(RepositorioCliente.class);
         Mockito.when(repositorioCliente.existePorCedula("1234567890")).thenReturn(true);

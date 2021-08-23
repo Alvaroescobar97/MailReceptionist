@@ -14,7 +14,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -40,4 +40,26 @@ public class ComandoControladorClienteTest {
                 .andExpect(status().isCreated())
                 .andExpect(content().json("{'valor': '1478529636'}"));
     }
+
+    @Test
+    public void actualizar() throws Exception{
+        ComandoCliente cliente = new ComandoClienteTestDataBuilder().conCedula("1234567890").conNombre("Felipe Edit").conDireccion("Calle 98 #98-98").conTelefono(741852963L).conCiudad("Buga").build();
+
+        mockMvc.perform(put("/clientes/{cedula}", cliente.getCedula())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(cliente)))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void eliminar() throws Exception{
+        String cedula = "1234567890";
+
+        mockMvc.perform(delete("/clientes/{cedula}", cedula)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(cedula)))
+                .andExpect(status().isOk())
+                .andExpect(content().json("{'valor': true}"));
+    }
+
 }

@@ -16,8 +16,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDateTime;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -53,5 +52,17 @@ public class ComandoControladorEnvioTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(envio)))
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    public void eliminar() throws Exception{
+        Long id = 1L;
+        ComandoEnvio envio = new ComandoEnvioTestDataBuilder().conFecha(LocalDateTime.of(2021,6,19,0,0)).build();
+
+        mockMvc.perform(delete("/envios/{id}",id)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(envio)))
+                .andExpect(status().isOk())
+                .andExpect(content().json("{'valor': true}"));
     }
 }

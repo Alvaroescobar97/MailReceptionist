@@ -14,6 +14,7 @@ public class ServicioCrearEnvio {
     public static final String CEDULA_EMISOR_INVALIDA = "El EMISOR del correo NO existe en el sistema, debe registrarse primero";
     public static final String CEDULA_RECEPTOR_INVALIDA = "El RECEPTOR del correo NO existe en el sistema, debe registrarse primero";
     public static final String ULTIMO_ENVIO_PENDIENTE = "Ultimo envio pendiente por ser entregado, debe esperar a que la entrega se realice";
+    public static final String EL_ENVIO_YA_EXISTE = "Ya existe un envio con ese ID por favor intente con otro";
 
 
     public static final Integer DIAS_ENTREGA_ENVIO = 5;
@@ -27,6 +28,7 @@ public class ServicioCrearEnvio {
     }
 
     public Long ejecutar(Envio envio){
+        validarExistenciaPrevia(envio);
         validarEntregaUltimoEnvioClienteEmisor(envio);
         validarExistenciaEmisorEnvio(envio);
         validarExistenciaReceptorEnvio(envio);
@@ -37,6 +39,13 @@ public class ServicioCrearEnvio {
         envio.validarNegacionEnvio();
 
         return this.repositorioEnvio.crear(envio);
+    }
+
+    private void validarExistenciaPrevia(Envio envio) {
+        boolean exite = repositorioEnvio.existePorId(envio.getId());
+        if(exite){
+            throw new ExcepcionDuplicidad(EL_ENVIO_YA_EXISTE);
+        }
     }
 
     private void validarEntregaUltimoEnvioClienteEmisor(Envio envio) {

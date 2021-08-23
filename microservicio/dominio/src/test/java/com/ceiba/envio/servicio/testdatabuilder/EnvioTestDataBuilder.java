@@ -28,6 +28,11 @@ public class EnvioTestDataBuilder {
         return this;
     }
 
+    public EnvioTestDataBuilder conID(Long id){
+        this.id = id;
+        return this;
+    }
+
     public EnvioTestDataBuilder conFecha(LocalDateTime fecha){
         this.fecha = fecha;
         return this;

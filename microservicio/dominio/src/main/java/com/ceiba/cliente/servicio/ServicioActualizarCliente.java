@@ -6,7 +6,7 @@ import com.ceiba.dominio.excepcion.ExcepcionValorInvalido;
 
 public class ServicioActualizarCliente {
 
-    public static final String EL_CLIENTE_NO_EXISTE = "El cliente NO existe en el sistema, debe registrarse primero";
+    public static final String EL_CLIENTE_NO_EXISTE = "El cliente que desea modificar NO existe en el sistema, debe registrarse primero";
 
     private final RepositorioCliente repositorioCliente;
 

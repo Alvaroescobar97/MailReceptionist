@@ -7,7 +7,7 @@ import com.ceiba.envio.puerto.repositorio.RepositorioEnvio;
 
 public class ServicioActualizarEnvio {
 
-    private static final String EL_ENVIO_YA_EXISTE = "El envio que desea modificar no existe en el sistema";
+    private static final String EL_ENVIO_NO_EXISTE = "El envio que desea modificar NO existe en el sistema";
     public static final String CEDULA_EMISOR_INVALIDA = "El EMISOR del correo NO existe en el sistema, debe registrarse primero";
     public static final String CEDULA_RECEPTOR_INVALIDA = "El RECEPTOR del correo NO existe en el sistema, debe registrarse primero";
 
@@ -35,7 +35,7 @@ public class ServicioActualizarEnvio {
     private void validarExistenciaPrevia(Envio envio) {
         boolean exite = repositorioEnvio.existePorId(envio.getId());
         if(!exite){
-            throw new ExcepcionDuplicidad(EL_ENVIO_YA_EXISTE);
+            throw new ExcepcionValorInvalido(EL_ENVIO_NO_EXISTE);
         }
     }
 
