@@ -1,9 +1,7 @@
 package com.ceiba.envio.comando.manejador;
 
 import com.ceiba.ComandoRespuesta;
-import com.ceiba.envio.comando.ComandoEnvio;
 import com.ceiba.envio.servicio.ServicioEliminarEnvio;
-import com.ceiba.manejador.ManejadorComando;
 import com.ceiba.manejador.ManejadorComandoRespuesta;
 import org.springframework.stereotype.Component;
 

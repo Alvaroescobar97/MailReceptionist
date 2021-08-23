@@ -8,14 +8,8 @@ import com.ceiba.envio.puerto.repositorio.RepositorioEnvio;
 public class ServicioActualizarEnvio {
 
     private static final String EL_ENVIO_YA_EXISTE = "El envio que desea modificar no existe en el sistema";
-    public static final String NEGACION_ENVIO = "Los días Domingos no se reciben envios, por favor vuelva otro día";
-    public static final String TIPO_ENVIO_ERRONEO = "Solo se aceptan envios de CARTAS o PAQUETES";
-    public static final String PESO_PAQUETE_INVALIDO = "Los PAQUETES deben tener peso";
-    public static final String PESO_CARTA_INVALIDO = "Las CARTAS NO deben tener peso, es decir peso = 0";
     public static final String CEDULA_EMISOR_INVALIDA = "El EMISOR del correo NO existe en el sistema, debe registrarse primero";
     public static final String CEDULA_RECEPTOR_INVALIDA = "El RECEPTOR del correo NO existe en el sistema, debe registrarse primero";
-
-    public static final Double COSTO_ADICIONAL = 10000.0;
 
     private final RepositorioEnvio repositorioEnvio;
     private final RepositorioCliente repositorioCliente;

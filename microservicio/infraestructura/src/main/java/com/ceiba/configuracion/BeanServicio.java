@@ -1,7 +1,9 @@
 package com.ceiba.configuracion;
 
 import com.ceiba.cliente.puerto.repositorio.RepositorioCliente;
+import com.ceiba.cliente.servicio.ServicioActualizarCliente;
 import com.ceiba.cliente.servicio.ServicioCrearCliente;
+import com.ceiba.cliente.servicio.ServicioEliminarCliente;
 import com.ceiba.envio.puerto.repositorio.RepositorioEnvio;
 import com.ceiba.envio.servicio.ServicioActualizarEnvio;
 import com.ceiba.envio.servicio.ServicioCrearEnvio;
@@ -15,6 +17,16 @@ public class BeanServicio {
     @Bean
     public ServicioCrearCliente servicioCrearCliente(RepositorioCliente repositorioCliente){
         return new ServicioCrearCliente(repositorioCliente);
+    }
+
+    @Bean
+    public ServicioActualizarCliente servicioActualizarCliente(RepositorioCliente repositorioCliente){
+        return new ServicioActualizarCliente(repositorioCliente);
+    }
+
+    @Bean
+    public ServicioEliminarCliente servicioEliminarCliente(RepositorioCliente repositorioCliente){
+        return new ServicioEliminarCliente(repositorioCliente);
     }
 
     @Bean

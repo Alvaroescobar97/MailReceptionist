@@ -19,12 +19,34 @@ public class RepositorioClientePostgresql implements RepositorioCliente {
     @SqlStatement(namespace="cliente", value="crear")
     private static String sqlCrear;
 
+    @SqlStatement(namespace="cliente", value="actualizar")
+    private static String sqlActualizar;
+
+    @SqlStatement(namespace="cliente", value="eliminar")
+    private static String sqlEliminar;
+
     @SqlStatement(namespace="cliente", value="existePorCedula")
     private static String sqlExistePorCedula;
 
     @Override
     public String crear(Cliente cliente) {
         return this.customNamedParameterJdbcTemplate.crearCliente(cliente,sqlCrear);
+    }
+
+    @Override
+    public void actualizar(Cliente cliente) {
+        this.customNamedParameterJdbcTemplate.actualizar(cliente, sqlActualizar);
+    }
+
+    @Override
+    public boolean eliminar(String cedula) {
+        boolean deleted = false;
+        MapSqlParameterSource paramSource = new MapSqlParameterSource();
+        paramSource.addValue("cedula", cedula);
+        if(this.customNamedParameterJdbcTemplate.getNamedParameterJdbcTemplate().update(sqlEliminar, paramSource) == 1){
+            deleted = true;
+        }
+        return deleted;
     }
 
     @Override
